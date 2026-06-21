@@ -1,0 +1,2 @@
+-- Reservado para los datos iniciales controlados de la futura base MySQL.
+-- Este archivo se completará después de definir y aprobar schema.sql.
