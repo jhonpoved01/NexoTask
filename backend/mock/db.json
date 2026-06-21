@@ -1,0 +1,173 @@
+{
+  "usuarios": [
+    {
+      "id": "1000000001",
+      "name": "Ana Torres",
+      "email": "ana.torres@mail.com"
+    },
+    {
+      "id": "1000000002",
+      "name": "Carlos Gómez",
+      "email": "carlos.gomez@mail.com"
+    },
+    {
+      "id": "1000000003",
+      "name": "María López",
+      "email": "maria.lopez@mail.com"
+    },
+    {
+      "id": "1000000004",
+      "name": "Juan Pérez",
+      "email": "juan.perez@mail.com"
+    },
+    {
+      "id": "1000000005",
+      "name": "Laura Martínez",
+      "email": "laura.martinez@mail.com"
+    },
+    {
+      "id": "1000000006",
+      "name": "Pedro Sánchez",
+      "email": "pedro.sanchez@mail.com"
+    },
+    {
+      "id": "1000000007",
+      "name": "Sofía Ramírez",
+      "email": "sofia.ramirez@mail.com"
+    },
+    {
+      "id": "1000000008",
+      "name": "Andrés Morales",
+      "email": "andres.morales@mail.com"
+    },
+    {
+      "id": "1000000009",
+      "name": "Valentina Cruz",
+      "email": "valentina.cruz@mail.com"
+    },
+    {
+      "id": "1000000010",
+      "name": "Diego Herrera",
+      "email": "diego.herrera@mail.com"
+    }
+  ],
+  "tareasDisponibles": [
+    {
+      "id": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API"
+    },
+    {
+      "id": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos"
+    },
+    {
+      "id": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente"
+    },
+    {
+      "id": "4",
+      "titulo": "Estudiar modularización",
+      "descripcion": "Separar funciones en diferentes archivos JS"
+    },
+    {
+      "id": "5",
+      "titulo": "Practicar GitHub",
+      "descripcion": "Realizar commits y push correctamente"
+    },
+    {
+      "id": "6",
+      "titulo": "Optimizar",
+      "descripcion": ""
+    },
+    {
+      "titulo": "dfgdfsb",
+      "descripcion": "fbhxb",
+      "id": "wizdKtN"
+    }
+  ],
+  "tareasAsignadas": [
+    {
+      "usuarioId": "1000000007",
+      "usuarioNombre": "Sofía Ramírez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T05:12:42.790Z",
+      "id": 2
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T05:14:22.038Z",
+      "id": 3
+    },
+    {
+      "usuarioId": "1000000004",
+      "usuarioNombre": "Juan Pérez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Completada",
+      "fechaAsignacion": "2026-06-14T05:35:13.432Z",
+      "id": 4
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:02:22.572Z",
+      "id": 5
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:08:49.930Z",
+      "id": 6
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:20:55.090Z",
+      "id": 7
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:21:05.147Z",
+      "id": 8
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-14T06:21:19.116Z",
+      "id": 9
+    }
+  ]
+}

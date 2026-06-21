@@ -1,217 +1,244 @@
-# PROYECTO BASE: [Nombre de la Aplicación] - Software Factory SENA
+# Sistema de Registro de Tareas
 
-**Metodología:** *"Del Requerimiento al Producto"*
+Aplicación académica para buscar usuarios, administrar tareas disponibles,
+asignar tareas, editar asignaciones, filtrar resultados y exportar información
+en formato JSON.
 
-Este repositorio constituye la base técnica y administrativa para el desarrollo del proyecto. No es solo un contenedor de código, es una simulación de un entorno profesional donde se aplican estándares de calidad, gestión ágil y flujos de trabajo colaborativos reales.
+El proyecto utiliza HTML, CSS, JavaScript modular y Vite en el frontend. La API
+actual funciona con JSON Server como solución temporal mientras se prepara una
+implementación futura de backend real y persistencia con MySQL.
 
----
+## Arquitectura actual
 
-## INTRODUCCIÓN Y PROPÓSITO
+El repositorio está organizado como un monorepo con npm workspaces:
 
-El objetivo de este proyecto es desarrollar una solución tecnológica funcional, priorizando:
+```text
+Proyecto_JS/
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+├── backend/
+│   ├── mock/
+│   │   └── db.json
+│   └── package.json
+├── database/
+│   ├── migrations/
+│   ├── schema.sql
+│   └── seed.sql
+├── docs/
+├── .github/
+├── package.json
+└── package-lock.json
+```
 
-- Arquitectura limpia  
-- Código escalable  
-- Trazabilidad total  
+### `frontend/`
 
-### El "Por qué" (Justificación)
+Contiene la aplicación web y su configuración de Vite.
 
-Dominar el ciclo de vida del software es tan importante como programar. Esta metodología alinea las habilidades técnicas con las exigencias de la industria, garantizando que cada línea de código tenga un propósito claro y demostrable.
+- `src/main.js`: punto de entrada.
+- `src/config/`: configuración del frontend y URL de la API.
+- `src/services/`: consumo de endpoints.
+- `src/ui/`: interacción con el DOM y presentación.
+- `src/utils/`: utilidades reutilizables.
+- `src/styles/`: estilos de la aplicación.
+- `public/`: recursos estáticos copiados directamente al build.
 
----
+### `backend/`
 
-## CENTRO DE DOCUMENTACIÓN (WIKI DEL PROYECTO)
+Contiene la API temporal basada en JSON Server. El archivo
+`backend/mock/db.json` almacena los datos usados durante el desarrollo.
 
-Antes de escribir la primera línea de código o ejecutar un comando, es obligatorio revisar las guías de trabajo.
+JSON Server no es el backend definitivo y no debe considerarse una solución de
+producción. En una fase posterior se implementará un backend real.
 
-### Nivel 1. Sistema  
-**Ubicación:** `docs/01-guia-sistema/`  
-- Manuales técnicos: creación de Issues y Milestones  
+### `database/`
 
-### Nivel 2. Metodología  
-**Ubicación:** `docs/02-guia-metodologia/`  
-- Reglas para reportar tareas y solicitar revisiones (PR)  
+Prepara la futura migración a MySQL:
 
-### Nivel 3. Formatos  
-**Ubicación:** `docs/03-formatos-maestros/`  
-- Plantillas oficiales de documentos  
+- `schema.sql`: definición futura del esquema.
+- `seed.sql`: datos iniciales controlados.
+- `migrations/`: cambios versionados del esquema.
 
----
+Estos archivos todavía no contienen un modelo SQL completo.
 
-## ROLES DE LA CÉLULA ÁGIL
+### `docs/`
 
-### Líder (Arquitecto)
+Centraliza la documentación académica, técnica, arquitectónica, metodológica y
+de soporte. Consulta [docs/README.md](docs/README.md) para conocer su
+organización.
 
-- **Responsabilidad:** Integridad del repositorio y control de calidad  
-- **Tareas en GitHub:**
-  - Protección de ramas  
-  - Gestión de Milestones  
-  - Aprobación de Pull Requests  
+`.github/` permanece en la raíz porque GitHub utiliza esa ubicación para sus
+plantillas y configuraciones.
 
----
+## Estado actual
 
-### Desarrollador (Albañil)
+- Frontend modular funcionando con Vite.
+- API temporal funcionando con JSON Server.
+- Monorepo configurado mediante npm workspaces.
+- Estructura preparada para incorporar un backend real.
+- Carpeta de base de datos preparada para una futura migración a MySQL.
+- Backend real y conexión MySQL todavía no implementados.
 
-- **Responsabilidad:** Construcción de módulos y lógica  
-- **Tareas en GitHub:**
-  - Desarrollo en ramas `feat/`  
-  - Reporte de avances  
-  - Solicitud de revisión técnica  
+## Requisitos
 
----
+- Node.js `^20.19.0` o `>=22.12.0`.
+- npm compatible con workspaces.
 
-### El "Por qué"
-
-La división de roles evita duplicidad de tareas y establece una jerarquía clara de responsabilidad (segregación de funciones), esencial en equipos de alto rendimiento.
-
----
-
-## CONFIGURACIÓN DEL ENTORNO (LOCAL)
-
-Para estandarizar el desarrollo y evitar errores de compatibilidad, sigue estos pasos en tu terminal:
+Puedes comprobar las versiones instaladas con:
 
 ```bash
-# Paso 1. Clonar el repositorio
-git clone [URL-del-repositorio-grupal]
+node --version
+npm --version
+```
 
-# Paso 2. Instalar dependencias
+## Instalación
+
+Desde la raíz del repositorio:
+
+```bash
 npm install
-
-# Paso 3. Ejecutar el servidor local
-npm run dev
 ```
 
-### El "por que"
+La instalación raíz resuelve las dependencias de `frontend/` y `backend/`
+mediante npm workspaces. El archivo `package-lock.json` de la raíz debe
+conservarse para mantener instalaciones reproducibles.
 
-Estandarizar el entorno asegura la paridad entre las máquinas de todos los colaboradores, erradicando para siempre la excusa de "en mi máquina sí funciona".
+## Configuración de la API
 
-## ARQUITECTURA Y ESTRUCTURA DEL PROYECTO
+El frontend utiliza la variable:
 
-Mantenemos una organización modular para facilitar el mantenimiento:
-
-```
-/
-├── .github/              # Motor de plantillas (Issues y Pull Requests)
-├── docs/                 # Guías metodológicas y reportes técnicos
-├── public/               # Recursos estáticos (imágenes, iconos)
-├── src/                  # Código fuente principal
-│   ├── assets/           # Estilos globales y multimedia
-│   ├── components/       # Piezas de interfaz reutilizables (UI)
-│   ├── services/         # Lógica de consumo de datos o APIs
-│   ├── views/            # Secciones o páginas principales
-│   └── main.js           # Punto de entrada de la aplicación
-├── .gitignore            # Archivos que Git debe ignorar
-├── package.json          # Dependencias y scripts del proyecto
-├── README.md             # Manual principal del repositorio
-└── TEAM_AGREEMENT.md     # Acuerdo y normas de convivencia del equipo
+```env
+VITE_API_URL=http://localhost:3000
 ```
 
-## METODOLOGÍA DE TRABAJO (GITFLOW PROFESIONAL)
+La configuración de ejemplo está en `frontend/.env.example`. Para usar una URL
+distinta, crea localmente `frontend/.env` y define `VITE_API_URL`. Los archivos
+`.env` locales no deben subirse al repositorio.
 
-El flujo de trabajo es el corazón de nuestra colaboración.  
-Está estrictamente prohibido hacer commits directos sobre las ramas `main` o `develop`.
+## Ejecución en desarrollo
 
----
+Abre dos terminales en la raíz del proyecto.
 
-### Paso 1. Sincronizar
-Trae los últimos cambios aprobados del equipo:
+### 1. Iniciar el backend temporal
 
 ```bash
-git checkout develop
-git pull origin develop
+npm run dev:backend
 ```
-### Paso 2. Rama de Tarea
 
-Crea un espacio aislado para tu requerimiento:
+JSON Server queda disponible normalmente en:
+
+```text
+http://localhost:3000
+```
+
+Endpoints actuales:
+
+```text
+/usuarios
+/tareasDisponibles
+/tareasAsignadas
+```
+
+Advertencia: las operaciones `POST`, `PATCH` y `DELETE` modifican directamente
+`backend/mock/db.json`.
+
+### Backend accesible desde la red local
 
 ```bash
-git checkout -b feat/nombre-tarea
+npm run dev:backend:network
 ```
 
-### Paso 3. Desarrollo
+Este comando expone JSON Server mediante `0.0.0.0`. Debe utilizarse solamente
+en una red controlada, porque el mock no implementa autenticación ni
+autorización.
 
-Escribe código limpio y realiza commits descriptivos.
-
-### Paso 4. Sincronización Final
-
-Antes de entregar, integra los cambios recientes del equipo para resolver conflictos en tu máquina:
+### 2. Iniciar el frontend
 
 ```bash
-git checkout develop
-git pull origin develop
-git checkout feat/nombre-tarea
-git merge develop
+npm run dev:frontend
 ```
 
-### Paso 5. Solicitud de PR
+Vite muestra en la terminal la URL local del frontend, normalmente:
 
-Sube tu rama y solicita la revisión técnica en GitHub:
+```text
+http://localhost:5173
+```
+
+## Desarrollo, build y preview
+
+### Desarrollo
 
 ```bash
-git push origin feat/nombre-tarea
+npm run dev:frontend
 ```
 
-### El "Por qué"
+Inicia Vite con recarga automática. Está pensado para programar y probar
+cambios rápidamente; no genera una entrega final.
 
-Este flujo protege la estabilidad del código base. Si tu código falla, solo falla en tu rama, manteniendo el proyecto principal intacto y siempre funcional.
+### Build
 
-## BLINDAJE DE RAMAS Y SEGURIDAD
+```bash
+npm run build:frontend
+```
 
-Para garantizar la integridad del producto, el repositorio cuenta con candados de seguridad:
+Genera una versión optimizada del frontend dentro de:
 
-- **Rama `main`:**
-  - Representa el estado de producción  
-  - Solo recibe código desde `develop` cuando un Milestone (Hito) está al 100%  
+```text
+frontend/dist/
+```
 
-- **Restricción de Merge:**
-  - El botón de integración está bloqueado para los desarrolladores  
-  - Solo el Líder tiene el permiso final tras la revisión  
+`dist/` es contenido generado, está excluido de Git y puede regenerarse. No
+debe editarse manualmente.
 
----
+### Preview
 
-## ESTÁNDARES DE CALIDAD (DEFINITION OF DONE)
+```bash
+npm run preview:frontend
+```
 
-Antes de que el Líder apruebe un Pull Request, el desarrollador debe garantizar:
+Sirve localmente el contenido de `frontend/dist/` para comprobar el resultado
+del build. Antes de usarlo debe existir un build actualizado.
 
-- **Limpieza:**  
-  Cero `console.log`, variables sin uso o código comentado (*"por si acaso"*)  
+## Verificación de dependencias circulares
 
-- **Responsive:**  
-  El diseño se adapta sin romperse a pantallas móviles  
+```bash
+npm run lint:cycles
+```
 
-- **Sincronización:**  
-  La rama está actualizada y sin conflictos de merge  
+Analiza los módulos JavaScript del frontend mediante Madge.
 
-- **Automatización:**  
-  La descripción del PR incluye `Closes #ID` para cerrar la tarea  
+## Flujo recomendado de trabajo
 
-### El "Por qué"
+1. Sincronizar la rama de trabajo según las reglas del equipo.
+2. Ejecutar `npm install` cuando cambien las dependencias o el lock.
+3. Iniciar JSON Server con `npm run dev:backend`.
+4. Iniciar Vite con `npm run dev:frontend`.
+5. Implementar y probar los cambios en una rama dedicada.
+6. Ejecutar `npm run lint:cycles`.
+7. Ejecutar `npm run build:frontend`.
+8. Validar el build mediante `npm run preview:frontend`.
+9. Revisar los cambios antes de solicitar un Pull Request.
 
-Un control de calidad preventivo reduce la deuda técnica (errores acumulados) y automatiza el proceso administrativo.
+Las reglas detalladas de Git y GitHub se encuentran en
+[docs/04-git-github/](docs/04-git-github/).
 
----
+## Evolución prevista
 
-## CRITERIOS DE ENTREGA Y EVALUACIÓN
+La siguiente evolución arquitectónica reemplazará o complementará JSON Server
+con una API backend real. Esa API será responsable de validación, reglas de
+negocio, seguridad y acceso a MySQL.
 
-La fase del proyecto se considera exitosa, terminada y lista para calificación únicamente cuando:
+El frontend no se conectará directamente a MySQL; continuará comunicándose con
+el backend mediante HTTP.
 
-- El **Milestone** en GitHub marca el **100%** de progreso  
-- Todas las **Issues** del hito están cerradas y vinculadas a un PR aprobado  
-- El proyecto está desplegado en vivo (ej. Vercel, GitHub Pages) y funciona sin errores  
+## Documentación
 
-### El "Por qué"
-
-En la industria, el software que no está publicado no existe. Esto vincula el resultado técnico con la gestión profesional.
-
----
-
-## DIRECCIÓN DEL PROYECTO
-
-- **Instructor:** [Tu Nombre Aquí]  
-- **Institución:** Servicio Nacional de Aprendizaje (SENA)  
-- **Centro:** [Nombre de tu Centro de Formación]  
-- **Programa:** Análisis y Desarrollo de Software  
-
----
-
-Este repositorio es propiedad del equipo de desarrollo y se rige por las políticas de formación profesional integral del SENA.
+- [Índice de documentación](docs/README.md)
+- [Arquitectura](docs/02-arquitectura/README.md)
+- [Migración y uso de Vite](docs/03-migracion-vite/README.md)
+- [Git y GitHub](docs/04-git-github/README.md)
+- [Preparación de base de datos](docs/05-base-datos/README.md)
+- [Acuerdo del equipo](docs/00-entrega-academica/TEAM_AGREEMENT.md)

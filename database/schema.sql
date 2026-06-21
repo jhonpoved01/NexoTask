@@ -1,0 +1,3 @@
+-- Reservado para la definición futura del esquema MySQL del proyecto.
+-- Aquí se documentarán tablas, relaciones, restricciones e índices
+-- cuando se diseñe e implemente la persistencia del backend real.
