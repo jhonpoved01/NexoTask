@@ -3,6 +3,7 @@ node_modules/
 frontend/dist/
 dist/
 coverage/
+*.log
 codex.patch.bak
 .DS_Store
 .env
