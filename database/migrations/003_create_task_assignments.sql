@@ -1,0 +1,21 @@
+CREATE TABLE task_assignments (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    legacy_id VARCHAR(64) NULL,
+    task_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    assigned_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    completed_at DATETIME(3) NULL,
+    created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    CONSTRAINT pk_task_assignments PRIMARY KEY (id),
+    CONSTRAINT uq_task_assignments_legacy_id UNIQUE (legacy_id),
+    CONSTRAINT uq_task_assignments_task_user UNIQUE (task_id, user_id),
+    CONSTRAINT chk_task_assignments_status CHECK (status IN ('pending', 'in_progress', 'completed')),
+    CONSTRAINT fk_task_assignments_task FOREIGN KEY (task_id) REFERENCES tasks (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT fk_task_assignments_user FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    INDEX idx_task_assignments_task_id (task_id),
+    INDEX idx_task_assignments_user_id (user_id),
+    INDEX idx_task_assignments_status (status),
+    INDEX idx_task_assignments_assigned_at (assigned_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

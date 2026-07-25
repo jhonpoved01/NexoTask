@@ -1,0 +1,20 @@
+CREATE TABLE tasks (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    legacy_id VARCHAR(64) NULL,
+    title VARCHAR(160) NOT NULL,
+    description TEXT NULL,
+    priority VARCHAR(20) NOT NULL DEFAULT 'medium',
+    due_date DATETIME(3) NULL,
+    created_by BIGINT UNSIGNED NULL,
+    created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updated_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    deleted_at DATETIME(3) NULL,
+    CONSTRAINT pk_tasks PRIMARY KEY (id),
+    CONSTRAINT uq_tasks_legacy_id UNIQUE (legacy_id),
+    CONSTRAINT chk_tasks_priority CHECK (priority IN ('low', 'medium', 'high')),
+    CONSTRAINT fk_tasks_created_by FOREIGN KEY (created_by) REFERENCES users (id) ON UPDATE CASCADE ON DELETE SET NULL,
+    INDEX idx_tasks_priority (priority),
+    INDEX idx_tasks_due_date (due_date),
+    INDEX idx_tasks_created_by (created_by),
+    INDEX idx_tasks_deleted_at (deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
