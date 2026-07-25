@@ -1,6 +1,7 @@
 const particlesContainer = document.getElementById("particles-js");
+const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-if (particlesContainer && window.particlesJS) {
+if (particlesContainer && window.particlesJS && !reducirMovimiento) {
     window.particlesJS("particles-js", {
         particles: {
             number: {
@@ -70,4 +71,6 @@ if (particlesContainer && window.particlesJS) {
         },
         retina_detect: true
     });
+} else if (particlesContainer && reducirMovimiento) {
+    particlesContainer.hidden = true;
 }

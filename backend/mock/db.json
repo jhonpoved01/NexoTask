@@ -86,6 +86,11 @@
       "titulo": "dfgdfsb",
       "descripcion": "fbhxb",
       "id": "wizdKtN"
+    },
+    {
+      "titulo": "dfbgdgh",
+      "descripcion": "fdhngzdhzh",
+      "id": "0S6CyJh"
     }
   ],
   "tareasAsignadas": [
@@ -168,6 +173,26 @@
       "estado": "En progreso",
       "fechaAsignacion": "2026-06-14T06:21:19.116Z",
       "id": 9
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-07-25T04:35:07.228Z",
+      "id": 10
+    },
+    {
+      "usuarioId": "1000000006",
+      "usuarioNombre": "Pedro Sánchez",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-07-25T04:57:08.031Z",
+      "id": 11
     }
   ]
 }

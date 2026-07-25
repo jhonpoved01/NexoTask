@@ -1,53 +1,34 @@
 import { API_URL } from '../config/api.config.js';
+import { asegurarLista, normalizarId, solicitarJson } from '../utils/http.js';
 
 export async function obtenerTareasDisponibles() {
+    const tareas = await solicitarJson(`${API_URL}/tareasDisponibles`);
 
-    const respuesta = await fetch(`${API_URL}/tareasDisponibles`);
-
-    if (!respuesta.ok) {
-
-        throw new Error(
-            'Error al cargar tareas disponibles'
-        );
-
-    }
-
-    const tareas    = await respuesta.json();
-
-    return tareas;
-
+    return asegurarLista(tareas, 'las tareas disponibles');
 }
 
 export async function crearTareaDisponible(tarea) {
-
-    const respuesta = await fetch(`${API_URL}/tareasDisponibles`, {
+    return solicitarJson(`${API_URL}/tareasDisponibles`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tarea)
     });
-
-    return respuesta;
-
 }
 
 export async function actualizarTareaDisponible(id, datos) {
+    const idNormalizado = normalizarId(id, 'El ID de la tarea');
 
-    const respuesta = await fetch(`${API_URL}/tareasDisponibles/${id}`, {
+    return solicitarJson(`${API_URL}/tareasDisponibles/${encodeURIComponent(idNormalizado)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos)
     });
-
-    return respuesta;
-
 }
 
 export async function eliminarTareaDisponible(id) {
+    const idNormalizado = normalizarId(id, 'El ID de la tarea');
 
-    const respuesta = await fetch(`${API_URL}/tareasDisponibles/${id}`, {
+    return solicitarJson(`${API_URL}/tareasDisponibles/${encodeURIComponent(idNormalizado)}`, {
         method: 'DELETE'
     });
-
-    return respuesta;
-
 }

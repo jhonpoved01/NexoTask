@@ -1,18 +1,32 @@
+let temporizadorEstado = null;
+let temporizadorError = null;
+
 function mostrarNotificacion(mensaje, tipo = 'info') {
-    const contenedor = document.getElementById('mensajeSistema');
+    const esError = tipo === 'error';
+    const contenedor = document.getElementById(
+        esError ? 'mensajeErrorSistema' : 'mensajeSistema'
+    );
 
     if (!contenedor) {
         return;
     }
 
-    contenedor.textContent = mensaje;
-    contenedor.className = '';
-    contenedor.classList.add('notificacion', tipo);
+    const temporizadorActual = esError ? temporizadorError : temporizadorEstado;
+    window.clearTimeout(temporizadorActual);
 
-    setTimeout(() => {
+    contenedor.textContent = mensaje;
+    contenedor.className = `notificacion ${tipo}`;
+
+    const temporizador = window.setTimeout(() => {
         contenedor.textContent = '';
         contenedor.className = '';
-    }, 4000);
+    }, esError ? 8000 : 5000);
+
+    if (esError) {
+        temporizadorError = temporizador;
+    } else {
+        temporizadorEstado = temporizador;
+    }
 }
 
 export function notificarExito(mensaje) {

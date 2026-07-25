@@ -1,156 +1,125 @@
-import { obtenerUsuarios } from '../services/usuarios.service.js';
-import { obtenerTodasLasTareasAsignadas } from '../services/tareasAsignadas.service.js';
-import { notificarError, notificarInfo } from './notificaciones.ui.js';
+export function crearControladorFiltros({
+    ids,
+    incluirUsuario = false,
+    onAplicar,
+    botonMostrarId = null,
+    panelId = null,
+    botonCerrarId = null
+}) {
+    const valoresIniciales = {
+        usuarioId: '',
+        estado: 'Todas',
+        tareaId: '',
+        orden: 'fecha'
+    };
 
-export function configurarControlesTareas({ onChange, onCancel, onExport }) {
-    const botonMostrarFiltros = document.getElementById('botonMostrarFiltros');
-    const seccionControles = document.getElementById('seccionControlesTareas');
-    const botonAplicar = document.getElementById('botonAplicarFiltro');
-    const botonCancelar = document.getElementById('botonCancelarFiltro');
-    const botonExportar = document.getElementById('botonExportarTareas');
+    document.getElementById(ids.aplicar).addEventListener('click', () => {
+        onAplicar(obtenerValores());
+    });
 
-    if (botonMostrarFiltros && seccionControles) {
-        botonMostrarFiltros.addEventListener('click', () => {
-            seccionControles.classList.toggle('hidden');
+    document.getElementById(ids.limpiar).addEventListener('click', () => {
+        establecerValores(valoresIniciales);
+        onAplicar(obtenerValores());
+    });
+
+    if (botonMostrarId && panelId) {
+        const botonMostrar = document.getElementById(botonMostrarId);
+        const panel = document.getElementById(panelId);
+
+        botonMostrar.addEventListener('click', () => {
+            const mostrar = panel.classList.contains('hidden');
+            establecerPanelVisible(mostrar);
+            if (mostrar) panel.querySelector('select')?.focus();
         });
+
+        document.getElementById(botonCerrarId)?.addEventListener('click', () => {
+            establecerPanelVisible(false);
+            botonMostrar.focus();
+        });
+
+        function establecerPanelVisible(visible) {
+            panel.classList.toggle('hidden', !visible);
+            botonMostrar.setAttribute('aria-expanded', String(visible));
+            botonMostrar.textContent = visible ? 'Ocultar filtros' : 'Mostrar filtros';
+        }
     }
 
-    recargarOpcionesFiltro();
-
-    if (botonAplicar) {
-        botonAplicar.addEventListener('click', async () => {
-            await onChange(obtenerControlesTareas());
-        });
+    function obtenerValores() {
+        return {
+            filtros: {
+                usuarioId: incluirUsuario
+                    ? document.getElementById(ids.usuario).value
+                    : '',
+                estado: document.getElementById(ids.estado).value,
+                tareaId: document.getElementById(ids.tarea).value
+            },
+            orden: document.getElementById(ids.orden).value
+        };
     }
 
-    if (botonCancelar) {
-        botonCancelar.addEventListener('click', async () => {
-            restablecerFiltros();
-            seccionControles?.classList.add('hidden');
-            if (typeof onCancel === 'function') {
-                await onCancel(obtenerControlesTareas());
-            } else {
-                await onChange(obtenerControlesTareas());
-            }
-            notificarInfo('Filtros restablecidos.');
-        });
+    function establecerValores(valores = valoresIniciales) {
+        if (incluirUsuario && ids.usuario) {
+            asignarSiExiste(ids.usuario, valores.usuarioId ?? '');
+        }
+        asignarSiExiste(ids.estado, valores.estado ?? 'Todas');
+        asignarSiExiste(ids.tarea, valores.tareaId ?? '');
+        asignarSiExiste(ids.orden, valores.orden ?? 'fecha');
     }
 
-    if (botonExportar) {
-        botonExportar.addEventListener('click', () => {
-            onExport(obtenerControlesTareas());
-        });
-    }
-}
-
-export function obtenerControlesTareas() {
     return {
-        filtros: {
-            usuarioId: document.getElementById('filtroUsuario')?.value || '',
-            estado: document.getElementById('filtroEstado')?.value || 'Todas',
-            tareaId: document.getElementById('filtroTarea')?.value || ''
-        },
-        orden: document.getElementById('ordenTareas')?.value || 'fecha'
+        obtenerValores,
+        establecerValores
     };
 }
 
-export async function recargarOpcionesFiltro() {
-    await Promise.all([
-        cargarUsuariosFiltro(),
-        cargarTareasFiltro()
-    ]);
+export function poblarFiltroUsuarios(selectorId, usuarios) {
+    const selector = document.getElementById(selectorId);
+    const valorActual = selector.value;
+    selector.replaceChildren(crearOpcion('', 'Todos los usuarios'));
+
+    usuarios.forEach(usuario => {
+        selector.appendChild(
+            crearOpcion(String(usuario.id ?? ''), `${usuario.name} (${usuario.id})`)
+        );
+    });
+
+    restaurarValor(selector, valorActual);
 }
 
-async function cargarUsuariosFiltro() {
-    const selector = document.getElementById('filtroUsuario');
+export function poblarFiltroTareas(selectorId, tareas) {
+    const selector = document.getElementById(selectorId);
+    const valorActual = selector.value;
+    const unicas = new Map();
 
-    if (!selector) {
-        return;
-    }
+    tareas.forEach(tarea => {
+        const id = String(tarea.tareaId ?? tarea.id ?? '').trim();
+        const titulo = String(tarea.titulo ?? '').trim();
+        if (id && !unicas.has(id)) unicas.set(id, titulo);
+    });
 
-    try {
-        const valorActual = selector.value;
-        const usuarios = await obtenerUsuarios();
-
-        selector.innerHTML = '<option value="">Todos los usuarios</option>';
-
-        usuarios.forEach((usuario) => {
-            const opcion = document.createElement('option');
-            opcion.value = usuario.id;
-            opcion.textContent = `${usuario.name} (${usuario.id})`;
-            selector.appendChild(opcion);
-        });
-
-        selector.value = existeOpcion(selector, valorActual) ? valorActual : '';
-    } catch (error) {
-        console.error('Error al cargar usuarios para filtros:', error);
-        notificarError('No se pudieron cargar usuarios.');
-    }
+    selector.replaceChildren(crearOpcion('', 'Todas las tareas'));
+    unicas.forEach((titulo, id) => selector.appendChild(crearOpcion(id, titulo)));
+    restaurarValor(selector, valorActual);
 }
 
-async function cargarTareasFiltro() {
-    const selector = document.getElementById('filtroTarea');
-
-    if (!selector) {
-        return;
-    }
-
-    try {
-        const valorActual = selector.value;
-        const tareas = await obtenerTodasLasTareasAsignadas();
-        const tareasUnicas = new Map();
-
-        tareas.forEach((tarea) => {
-            const id = String(tarea.tareaId ?? '').trim();
-
-            if (id && !tareasUnicas.has(id)) {
-                tareasUnicas.set(id, tarea.titulo);
-            }
-        });
-
-        selector.innerHTML = '<option value="">Todas las tareas</option>';
-
-        tareasUnicas.forEach((titulo, id) => {
-            const opcion = document.createElement('option');
-            opcion.value = id;
-            opcion.textContent = titulo;
-            selector.appendChild(opcion);
-        });
-
-        selector.value = existeOpcion(selector, valorActual) ? valorActual : '';
-    } catch (error) {
-        console.error('Error al cargar tareas para filtros:', error);
-        notificarError('No se pudieron cargar tareas.');
-    }
+function crearOpcion(valor, texto) {
+    const opcion = document.createElement('option');
+    opcion.value = valor;
+    opcion.textContent = texto;
+    return opcion;
 }
 
-function existeOpcion(selector, valor) {
-    return Array.from(selector.options).some((opcion) => opcion.value === valor);
+function restaurarValor(selector, valor) {
+    selector.value = Array.from(selector.options).some(opcion => opcion.value === valor)
+        ? valor
+        : '';
 }
 
-export function resetearControlesTareas() {
-    restablecerFiltros();
-}
+function asignarSiExiste(id, valor) {
+    const control = document.getElementById(id);
+    if (!control) return;
 
-function restablecerFiltros() {
-    const filtroUsuario = document.getElementById('filtroUsuario');
-    const filtroEstado = document.getElementById('filtroEstado');
-    const filtroTarea = document.getElementById('filtroTarea');
-    const ordenTareas = document.getElementById('ordenTareas');
-
-    if (filtroUsuario) {
-        filtroUsuario.value = '';
-    }
-
-    if (filtroEstado) {
-        filtroEstado.value = 'Todas';
-    }
-
-    if (filtroTarea) {
-        filtroTarea.value = '';
-    }
-
-    if (ordenTareas) {
-        ordenTareas.value = 'fecha';
-    }
+    control.value = Array.from(control.options).some(opcion => opcion.value === valor)
+        ? valor
+        : control.options[0]?.value ?? '';
 }

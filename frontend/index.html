@@ -4,301 +4,482 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/src/styles/main.css">
-    <title>GRUPO 6</title>
+    <title>NexoTask - Gestión y asignación de tareas</title>
 </head>
 
 <body>
+    <a class="enlace-saltar" href="#contenido-principal">Saltar al contenido principal</a>
     <div id="particles-js" aria-hidden="true"></div>
 
-    <!-- CONTENEDOR PRINCIPAL -->
     <div class="contenedor-principal">
-
-        <!-- ENCABEZADO -->
         <header class="encabezado">
-            <h1>Sistema de Registro de Tareas</h1>
-            <p>
-                Gestión de tareas utilizando JavaScript,
-                DOM y JSON Server
-            </p>
-        </header>
-                
-            
-        <!-- FORMULARIO DE BÚSQUEDA DE USUARIO -->
-        <section class="seccion-busqueda-usuario">
-            <h2>Buscar Usuario</h2>
-            <form id="formularioBusquedaUsuario">
-
-                <!-- Documento -->
-                <div class="grupo-formulario">
-                    <label for="documentoUsuario"> Documento del Usuario</label>
-                    <input type="text" id="documentoUsuario"
-                    placeholder="Ejemplo: 1000000001" required>
-                        
-                    <!-- Mensaje de error -->
-                    <span
-                        id="errorDocumentoUsuario"
-                        class="mensaje-error"
-                    ></span>
-                </div>
-
-                <!-- Botón -->
-                <button type="submit">Buscar Usuario</button>
-            </form>
-        </section>
-
-
-        <!-- MENSAJES DEL SISTEMA -->
-        <div id="mensajeSistema"></div>
-
-
-        <!-- DATOS DEL USUARIO -->
-        <section id="seccionDatosUsuario" class="hidden" >
-            <h2>Información del Usuario</h2>
-            <p>
-                <strong>Nombre:</strong>
-                <span id="nombreUsuario"></span>
-            </p>
-            <p>
-                <strong>Correo:</strong>
-                <span id="correoUsuario"></span>
-            </p>
-        </section>
-
-
-        <!-- FORMULARIO DE REGISTRO DE TAREAS -->
-        <section id="seccionFormularioTareas" class="hidden">
-
-            <h2>Registrar Nueva Tarea</h2>
-            
-            <form id="formularioTareas">
-            
-                <!-- SELECCIONAR TAREA -->
-                <div class="grupo-formulario">
-                    <label for="selectorTareas">Selecciona una tarea</label>
-                    <select id="selectorTareas" class="selector-tareas-original" required>
-                        <option value="">-- Selecciona una tarea --</option>
-                    </select>
-                    <div class="dropdown-tareas">
-                        <div id="dropdownCabecera" class="dropdown-cabecera">
-                            <span id="dropdownTexto">-- Selecciona una tarea --</span>
-                        </div>
-                        <div id="listaTareasDisponibles" class="dropdown-lista"></div>
-                        <button type="button" id="panelBotonAgregarTarea" class="boton-agregar">
-                            Registrar tarea
-                        </button>
-                    
-                        <div id="panelTarea" class="panel-tarea hidden">
-                            <h4 id="tituloTareaSeleccionada">agregar tarea</h4>
-                            <input type="text" id="panelInputTitulo" placeholder="Título de la tarea">
-                            <input type="text" id="panelInputDescripcion" placeholder="Descripción">
-                            <button type="button" id="panelBotonListo">✔ Listo</button>
-                            <button type="button" id="panelBotonCancelar">Cancelar</button>
-                        </div>
-                    </div>
-                    <span id="errorSelectorTareas" class="mensaje-error"></span>
-                </div>
-
-                <!-- ESTADO -->
-                <div class="grupo-formulario">
-                    <label for="estadoTarea">Estado de la Tarea</label>               
-                    <select id="estadoTarea" required>
-                        <option value="" disabled selected>Selecciona un estado </option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En progreso">En progreso</option>
-                        <option value="Completada">Completada</option>
-                    </select>
-                    <span id="errorEstadoTarea" class="mensaje-error"></span>
-                </div>
-
-
-                <!-- BOTONES -->
-                <div class="acciones-formulario">
-                    <button type="submit">Asignar tarea</button>
-
-                    <!-- Botón borrar -->
-                    <button type="button" id="botonBorrarTareas" 
-                        class="hidden">Borrar tareas
-                    </button>
-                </div>
-            </form>
-        </section>
-               
-
-        <!-- FILTRO DE TAREAS -->
-        <button type="button" id="botonMostrarFiltros" class="hidden">
-            Filtrar
-        </button>
-
-        <section id="seccionControlesTareas" class="hidden">
-            <h2>Filtrar Tareas</h2>
-
-            <div id="controlFiltroUsuario" class="grupo-formulario">
-                <label for="filtroUsuario">Filtrar por usuario</label>
-                <select id="filtroUsuario">
-                    <option value="">Todos los usuarios</option>
-                </select>
+            <div class="marca-aplicacion">
+                <h1>NexoTask</h1>
+                <p>Sistema de gestión y asignación de tareas</p>
             </div>
 
-            <div id="controlFiltroEstado" class="grupo-formulario">
-                <label for="filtroEstado">Filtrar por estado</label>
-                <select id="filtroEstado">
-                    <option value="Todas">Todas</option>
+            <nav class="navegacion-principal" aria-label="Áreas principales">
+                <ul>
+                    <li>
+                        <a href="#usuarios" class="enlace-navegacion" data-vista="usuarios">
+                            Usuarios y asignaciones
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#catalogo" class="enlace-navegacion" data-vista="catalogo">
+                            Catálogo de tareas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#general" class="enlace-navegacion" data-vista="general">
+                            Vista general
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="contenido-principal" tabindex="-1">
+            <div id="mensajeSistema" role="status" aria-live="polite" aria-atomic="true"></div>
+            <div id="mensajeErrorSistema" role="alert" aria-atomic="true"></div>
+
+            <section
+                id="vistaUsuarios"
+                class="vista-principal"
+                data-vista="usuarios"
+                aria-labelledby="tituloVistaUsuarios"
+            >
+                <header class="cabecera-vista">
+                    <div>
+                        <h2 id="tituloVistaUsuarios" tabindex="-1">Usuarios y asignaciones</h2>
+                        <p>Busca un usuario para consultar y gestionar sus tareas asignadas.</p>
+                    </div>
+                </header>
+
+                <div id="estadoUsuarioSinSeleccionar">
+                    <form id="formularioBusquedaUsuario" class="formulario-busqueda" novalidate>
+                        <div class="grupo-formulario">
+                            <label for="documentoUsuario">Documento del usuario</label>
+                            <p id="ayudaDocumentoUsuario" class="texto-ayuda">
+                                Escribe el documento completo con el que está registrado el usuario.
+                            </p>
+                            <input
+                                type="text"
+                                id="documentoUsuario"
+                                autocomplete="off"
+                                required
+                                aria-describedby="ayudaDocumentoUsuario errorDocumentoUsuario"
+                            >
+                            <span id="errorDocumentoUsuario" class="mensaje-error" aria-live="polite"></span>
+                        </div>
+                        <button type="submit" id="botonBuscarUsuario">Buscar usuario</button>
+                    </form>
+
+                    <div class="estado-vacio">
+                        <h3>Ningún usuario seleccionado</h3>
+                        <p>Utiliza la búsqueda para consultar sus asignaciones.</p>
+                    </div>
+                </div>
+
+                <div id="estadoUsuarioSeleccionado" class="hidden">
+                    <section class="cabecera-contextual" aria-labelledby="tituloUsuarioActivo">
+                        <div>
+                            <p class="etiqueta-contexto">Usuario activo</p>
+                            <h3 id="tituloUsuarioActivo" tabindex="-1"><span id="nombreUsuario"></span></h3>
+                            <dl class="datos-contexto">
+                                <div>
+                                    <dt>Documento</dt>
+                                    <dd id="documentoUsuarioActivo"></dd>
+                                </div>
+                                <div>
+                                    <dt>Correo</dt>
+                                    <dd id="correoUsuario"></dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <button type="button" id="botonCambiarUsuario" class="boton-secundario">
+                            Cambiar usuario
+                        </button>
+                    </section>
+
+                    <div class="barra-acciones-vista">
+                        <button type="button" id="botonAbrirAsignacion">Asignar tarea</button>
+                    </div>
+
+                    <section aria-labelledby="tituloResumenUsuario">
+                        <h3 id="tituloResumenUsuario">Resumen del usuario activo</h3>
+                        <div class="resumen-tareas">
+                            <article class="tarjeta-resumen tarjeta-total">
+                                <span class="resumen-etiqueta">Total</span>
+                                <strong id="usuarioContadorTotal">0</strong>
+                            </article>
+                            <article class="tarjeta-resumen tarjeta-pendientes">
+                                <span class="resumen-etiqueta">Pendientes</span>
+                                <strong id="usuarioContadorPendientes">0</strong>
+                            </article>
+                            <article class="tarjeta-resumen tarjeta-en-progreso">
+                                <span class="resumen-etiqueta">En progreso</span>
+                                <strong id="usuarioContadorEnProgreso">0</strong>
+                            </article>
+                            <article class="tarjeta-resumen tarjeta-completadas">
+                                <span class="resumen-etiqueta">Completadas</span>
+                                <strong id="usuarioContadorCompletadas">0</strong>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="seccion-resultados" aria-labelledby="tituloAsignacionesUsuario">
+                        <div class="cabecera-resultados">
+                            <div>
+                                <h3 id="tituloAsignacionesUsuario" tabindex="-1">Asignaciones del usuario</h3>
+                                <p id="usuarioCantidadResultados" aria-live="polite">0 resultados visibles</p>
+                            </div>
+                            <button
+                                type="button"
+                                id="botonMostrarFiltrosUsuario"
+                                class="boton-secundario"
+                                aria-expanded="false"
+                                aria-controls="filtrosUsuario"
+                            >
+                                Mostrar filtros
+                            </button>
+                        </div>
+
+                        <div id="filtrosUsuario" class="panel-filtros hidden">
+                            <div class="grupo-formulario">
+                                <label for="usuarioFiltroEstado">Estado</label>
+                                <select id="usuarioFiltroEstado">
+                                    <option value="Todas">Todos los estados</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="En progreso">En progreso</option>
+                                    <option value="Completada">Completada</option>
+                                </select>
+                            </div>
+                            <div class="grupo-formulario">
+                                <label for="usuarioFiltroTarea">Tarea</label>
+                                <select id="usuarioFiltroTarea">
+                                    <option value="">Todas las tareas</option>
+                                </select>
+                            </div>
+                            <div class="grupo-formulario">
+                                <label for="usuarioOrden">Ordenar por</label>
+                                <select id="usuarioOrden">
+                                    <option value="fecha">Fecha</option>
+                                    <option value="nombre">Nombre de usuario</option>
+                                    <option value="estado">Estado</option>
+                                </select>
+                            </div>
+                            <div class="acciones-formulario">
+                                <button type="button" id="botonAplicarFiltrosUsuario">Aplicar filtros</button>
+                                <button type="button" id="botonLimpiarFiltrosUsuario" class="boton-secundario">
+                                    Limpiar filtros
+                                </button>
+                                <button type="button" id="botonCerrarFiltrosUsuario" class="boton-secundario">
+                                    Cerrar filtros
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="usuarioMensajeSinTareas" class="estado-vacio">
+                            <p>Este usuario aún no tiene tareas asignadas.</p>
+                        </div>
+
+                        <div class="contenedor-tabla" tabindex="0" aria-label="Tabla desplazable de asignaciones del usuario">
+                            <table id="usuarioTablaTareas" class="hidden">
+                                <caption>Asignaciones visibles del usuario activo</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Título</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Usuario</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usuarioCuerpoTabla"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <details class="mas-acciones">
+                        <summary>Más acciones</summary>
+                        <div class="contenido-mas-acciones">
+                            <button type="button" id="botonExportarUsuario" class="boton-secundario">
+                                Exportar resultados visibles
+                            </button>
+                            <div class="zona-destructiva">
+                                <p>Esta acción afecta todas las asignaciones del usuario activo.</p>
+                                <button type="button" id="botonBorrarTareas" class="boton-destructivo">
+                                    Eliminar todas las asignaciones
+                                </button>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section
+                id="vistaCatalogo"
+                class="vista-principal hidden"
+                data-vista="catalogo"
+                aria-labelledby="tituloVistaCatalogo"
+            >
+                <header class="cabecera-vista">
+                    <div>
+                        <h2 id="tituloVistaCatalogo" tabindex="-1">Catálogo de tareas</h2>
+                        <p>Administra tareas reutilizables que pueden asignarse a distintos usuarios.</p>
+                    </div>
+                    <button type="button" id="botonCrearTareaCatalogo">Crear tarea</button>
+                </header>
+
+                <div class="grupo-formulario campo-busqueda-catalogo">
+                    <label for="buscarTareaCatalogo">Buscar por título</label>
+                    <input type="search" id="buscarTareaCatalogo" autocomplete="off">
+                </div>
+                <p id="cantidadTareasCatalogo" aria-live="polite">0 tareas disponibles</p>
+
+                <div id="estadoVacioCatalogo" class="estado-vacio hidden">
+                    <h3 id="tituloEstadoVacioCatalogo">No hay tareas disponibles</h3>
+                    <p id="textoEstadoVacioCatalogo">Crea la primera tarea para poder asignarla posteriormente.</p>
+                </div>
+                <div id="listaTareasDisponibles" class="lista-catalogo"></div>
+
+                <section
+                    id="panelTarea"
+                    class="panel-tarea hidden"
+                    aria-labelledby="tituloTareaSeleccionada"
+                >
+                    <h3 id="tituloTareaSeleccionada" tabindex="-1">Crear tarea</h3>
+                    <div class="grupo-formulario">
+                        <label for="panelInputTitulo">Título</label>
+                        <input type="text" id="panelInputTitulo" required aria-describedby="errorPanelTitulo">
+                        <span id="errorPanelTitulo" class="mensaje-error" aria-live="polite"></span>
+                    </div>
+                    <div class="grupo-formulario">
+                        <label for="panelInputDescripcion">Descripción</label>
+                        <textarea
+                            id="panelInputDescripcion"
+                            rows="3"
+                            required
+                            aria-describedby="errorPanelDescripcion"
+                        ></textarea>
+                        <span id="errorPanelDescripcion" class="mensaje-error" aria-live="polite"></span>
+                    </div>
+                    <div class="acciones-formulario">
+                        <button type="button" id="panelBotonListo">Crear tarea</button>
+                        <button type="button" id="panelBotonCancelar" class="boton-secundario">Cancelar</button>
+                    </div>
+                </section>
+            </section>
+
+            <section
+                id="vistaGeneral"
+                class="vista-principal hidden"
+                data-vista="general"
+                aria-labelledby="tituloVistaGeneral"
+            >
+                <header class="cabecera-vista">
+                    <div>
+                        <h2 id="tituloVistaGeneral" tabindex="-1">Vista general</h2>
+                        <p>Resultados de todos los usuarios.</p>
+                    </div>
+                    <button type="button" id="botonExportarGeneral" class="boton-secundario">
+                        Exportar resultados visibles
+                    </button>
+                </header>
+
+                <section class="panel-filtros" aria-labelledby="tituloFiltrosGenerales">
+                    <h3 id="tituloFiltrosGenerales">Filtrar asignaciones</h3>
+                    <div class="rejilla-filtros">
+                        <div class="grupo-formulario">
+                            <label for="generalFiltroUsuario">Usuario</label>
+                            <select id="generalFiltroUsuario">
+                                <option value="">Todos los usuarios</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="generalFiltroEstado">Estado</label>
+                            <select id="generalFiltroEstado">
+                                <option value="Todas">Todos los estados</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En progreso">En progreso</option>
+                                <option value="Completada">Completada</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="generalFiltroTarea">Tarea</label>
+                            <select id="generalFiltroTarea">
+                                <option value="">Todas las tareas</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="generalOrden">Ordenar por</label>
+                            <select id="generalOrden">
+                                <option value="fecha">Fecha</option>
+                                <option value="nombre">Nombre de usuario</option>
+                                <option value="estado">Estado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="acciones-formulario">
+                        <button type="button" id="botonAplicarFiltrosGeneral">Aplicar filtros</button>
+                        <button type="button" id="botonLimpiarFiltrosGeneral" class="boton-secundario">
+                            Limpiar filtros
+                        </button>
+                    </div>
+                </section>
+
+                <section aria-labelledby="tituloResumenGlobal">
+                    <h3 id="tituloResumenGlobal">Resumen global</h3>
+                    <div class="resumen-tareas">
+                        <article class="tarjeta-resumen tarjeta-total">
+                            <span class="resumen-etiqueta">Total</span>
+                            <strong id="generalContadorTotal">0</strong>
+                        </article>
+                        <article class="tarjeta-resumen tarjeta-pendientes">
+                            <span class="resumen-etiqueta">Pendientes</span>
+                            <strong id="generalContadorPendientes">0</strong>
+                        </article>
+                        <article class="tarjeta-resumen tarjeta-en-progreso">
+                            <span class="resumen-etiqueta">En progreso</span>
+                            <strong id="generalContadorEnProgreso">0</strong>
+                        </article>
+                        <article class="tarjeta-resumen tarjeta-completadas">
+                            <span class="resumen-etiqueta">Completadas</span>
+                            <strong id="generalContadorCompletadas">0</strong>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="seccion-resultados" aria-labelledby="tituloResultadosGenerales">
+                    <h3 id="tituloResultadosGenerales">Asignaciones globales</h3>
+                    <p id="generalCantidadResultados" aria-live="polite">0 resultados visibles</p>
+                    <div id="generalMensajeSinTareas" class="estado-vacio">
+                        <p>No hay asignaciones registradas.</p>
+                    </div>
+                    <div class="contenedor-tabla" tabindex="0" aria-label="Tabla desplazable de asignaciones globales">
+                        <table id="generalTablaTareas" class="hidden">
+                            <caption>Resultados visibles de todos los usuarios</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody id="generalCuerpoTabla"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <dialog
+        id="dialogoAsignarTarea"
+        aria-labelledby="tituloDialogoAsignar"
+        aria-describedby="ayudaDialogoAsignar"
+    >
+        <form id="formularioTareas" novalidate>
+            <h2 id="tituloDialogoAsignar">Asignar tarea</h2>
+            <p id="ayudaDialogoAsignar">La tarea se asignará al usuario activo.</p>
+            <div class="grupo-formulario">
+                <label for="selectorTareas">Tarea disponible</label>
+                <select id="selectorTareas" required aria-describedby="errorSelectorTareas">
+                    <option value="">Selecciona una tarea</option>
+                </select>
+                <span id="errorSelectorTareas" class="mensaje-error" aria-live="polite"></span>
+            </div>
+            <div class="grupo-formulario">
+                <label for="estadoTarea">Estado inicial</label>
+                <select id="estadoTarea" required aria-describedby="errorEstadoTarea">
+                    <option value="Pendiente" selected>Pendiente</option>
+                    <option value="En progreso">En progreso</option>
+                    <option value="Completada">Completada</option>
+                </select>
+                <span id="errorEstadoTarea" class="mensaje-error" aria-live="polite"></span>
+            </div>
+            <div class="acciones-formulario">
+                <button type="submit" id="botonAsignarTarea">Asignar tarea</button>
+                <button type="button" id="botonCancelarAsignacion" class="boton-secundario">Cancelar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog
+        id="dialogoEditarAsignacion"
+        aria-labelledby="tituloEditarAsignacion"
+        aria-describedby="ayudaEditarAsignacion"
+    >
+        <form id="formularioEditarTarea" novalidate>
+            <h2 id="tituloEditarAsignacion">Editar asignación</h2>
+            <p id="ayudaEditarAsignacion">Los cambios afectan únicamente esta asignación.</p>
+            <input type="hidden" id="editarAsignadaId">
+            <fieldset>
+                <legend>Cambiar tarea asociada</legend>
+                <label for="editarAsignadaTareaId">Tarea disponible</label>
+                <select id="editarAsignadaTareaId"></select>
+            </fieldset>
+            <div class="grupo-formulario">
+                <label for="editarAsignadaTitulo">Título</label>
+                <input type="text" id="editarAsignadaTitulo" required aria-describedby="errorEditarTitulo">
+                <span id="errorEditarTitulo" class="mensaje-error" aria-live="polite"></span>
+            </div>
+            <div class="grupo-formulario">
+                <label for="editarAsignadaDescripcion">Descripción</label>
+                <textarea
+                    id="editarAsignadaDescripcion"
+                    rows="3"
+                    required
+                    aria-describedby="errorEditarDescripcion"
+                ></textarea>
+                <span id="errorEditarDescripcion" class="mensaje-error" aria-live="polite"></span>
+            </div>
+            <div class="grupo-formulario">
+                <label for="editarAsignadaEstado">Estado</label>
+                <select id="editarAsignadaEstado" required>
                     <option value="Pendiente">Pendiente</option>
                     <option value="En progreso">En progreso</option>
                     <option value="Completada">Completada</option>
                 </select>
             </div>
-
-            <div id="controlFiltroTarea" class="grupo-formulario">
-                <label for="filtroTarea">Filtrar por tarea</label>
-                <select id="filtroTarea">
-                    <option value="">Todas las tareas</option>
-                </select>
+            <fieldset>
+                <legend>Reasignar</legend>
+                <label for="editarAsignadaUsuarioId">Usuario asignado</label>
+                <select id="editarAsignadaUsuarioId"></select>
+            </fieldset>
+            <div class="acciones-formulario">
+                <button type="submit" id="botonGuardarEdicion">Guardar cambios</button>
+                <button type="button" id="botonCancelarEdicion" class="boton-secundario">Cancelar</button>
             </div>
+        </form>
+    </dialog>
 
-            <div class="grupo-formulario">
-                <label for="ordenTareas">Ordenar por</label>
-                <select id="ordenTareas">
-                    <option value="fecha">Fecha</option>
-                    <option value="nombre">Nombre de usuario</option>
-                    <option value="estado">Estado</option>
-                </select>
+    <dialog
+        id="dialogoConfirmacion"
+        aria-labelledby="tituloDialogoConfirmacion"
+        aria-describedby="mensajeDialogoConfirmacion avisoDialogoIrreversible"
+    >
+        <form method="dialog">
+            <h2 id="tituloDialogoConfirmacion">Confirmar eliminación</h2>
+            <p id="mensajeDialogoConfirmacion"></p>
+            <p id="avisoDialogoIrreversible">Esta acción no se puede deshacer.</p>
+            <div class="acciones-formulario">
+                <button type="submit" id="botonCancelarConfirmacion" value="cancelar" class="boton-secundario">
+                    Cancelar
+                </button>
+                <button type="submit" id="botonConfirmarAccion" value="confirmar" class="boton-destructivo">
+                    Eliminar
+                </button>
             </div>
+        </form>
+    </dialog>
 
-            <button type="button" id="botonAplicarFiltro">Aplicar</button>
-            <button type="button" id="botonCancelarFiltro">Cancelar</button>
-        </section>
-
-
-        <!-- TABLA DE TAREAS -->
-        <section class="seccion-tabla-tareas">
-
-            <h2>Tareas Asignadas</h2>
-
-            <button type="button" id="botonExportarTareas" class="hidden">
-                Exportar JSON
-            </button>
-
-            <div id="resumenTareas" class="resumen-tareas">
-                <article class="tarjeta-resumen tarjeta-total">
-                    <span class="resumen-etiqueta">Total</span>
-                    <strong id="contadorTotalTareas">0</strong>
-                </article>
-
-                <article class="tarjeta-resumen tarjeta-pendientes">
-                    <span class="resumen-etiqueta">Pendientes</span>
-                    <strong id="contadorPendientes">0</strong>
-                </article>
-
-                <article class="tarjeta-resumen tarjeta-en-progreso">
-                    <span class="resumen-etiqueta">En progreso</span>
-                    <strong id="contadorEnProgreso">0</strong>
-                </article>
-
-                <article class="tarjeta-resumen tarjeta-completadas">
-                    <span class="resumen-etiqueta">Completadas</span>
-                    <strong id="contadorCompletadas">0</strong>
-                </article>
-            </div>
-
-            <!-- Mensaje sin tareas -->
-            <div id="mensajeSinTareas">
-                <p>No hay tareas asignadas.</p>
-            </div>
-                
-            <!-- Tabla -->
-            <table id="tablaTareas" class="hidden">
-                <thead>
-                    <tr>
-                        <th>Título</th>
-
-                        <th>Descripción</th>
-
-                        <th>Estado</th>
-
-                        <th>Fecha</th>
-
-                        <th>Usuario</th>
-
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-
-                <!--
-                    Aquí se insertarán las tareas
-                    dinámicamente desde JavaScript
-                -->
-
-                <tbody id="cuerpoTablaTareas"></tbody>
-            </table>
-        </section>
-
-         <!--esta secsion es para editar la tarea asignada en la tabla -->
-        
-        <section id="seccionEditarTareaAsignada" class="seccion-editar-tarea-asignada hidden">
-            <h2>Editar Tarea Asignada</h2>
-            <form id="formularioEditarTarea">
-                <input type="hidden" id="editarAsignadaId">
-                <input type="hidden" id="editarAsignadaTareaId">
-                <input type="hidden" id="editarAsignadaUsuarioId">
-
-                <div class="grupo-formulario">
-                    <label for="dropdownEditarTareaCabecera">Selecciona una tarea disponible</label>
-                    <div class="dropdown-tareas">
-                        <div id="dropdownEditarTareaCabecera" class="dropdown-cabecera">
-                            <span id="dropdownEditarTareaTexto">-- Selecciona una tarea --</span>
-                        </div>
-                        <div id="listaEditarTareasDisponibles" class="dropdown-lista"></div>
-                    </div>
-                </div>
-
-                <div class="grupo-formulario">
-                    <label for="editarAsignadaTitulo">Título de la Tarea</label>
-                    <input type="text" id="editarAsignadaTitulo" required>
-                </div>
-
-                <div class="grupo-formulario">
-                    <label for="editarAsignadaDescripcion">Descripción</label>
-                    <textarea id="editarAsignadaDescripcion" class="textarea-editar-tarea" rows="3" required></textarea>
-                </div>
-
-                <div class="grupo-formulario">
-                    <label for="editarAsignadaEstado">Estado de la Tarea</label>               
-                    <select id="editarAsignadaEstado" required>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En progreso">En progreso</option>
-                        <option value="Completada">Completada</option>
-                    </select>
-                </div>
-
-                <div class="grupo-formulario">
-                    <label for="dropdownEditarUsuarioCabecera">Selecciona un usuario asignado</label>
-                    <div class="dropdown-tareas">
-                        <div id="dropdownEditarUsuarioCabecera" class="dropdown-cabecera">
-                            <span id="dropdownEditarUsuarioTexto">-- Selecciona un usuario --</span>
-                        </div>
-                        <div id="listaEditarUsuariosDisponibles" class="dropdown-lista"></div>
-                    </div>
-                </div>
-
-                <div class="grupo-formulario">
-                    <label for="editarAsignadaUsuario">Nombre del Usuario Asignado</label>
-                    <input type="text" id="editarAsignadaUsuario" placeholder="Selecciona un usuario desde el dropdown" readonly required>
-                </div>
-
-                <div class="acciones-formulario acciones-editar-tarea">
-                    <button type="submit" class="boton-guardar-edicion">Guardar Cambios</button>
-                    <button type="button" id="botonCancelarEdicion" class="boton-cancelar-edicion">Cancelar</button>
-                </div>
-            </form>
-        </section>    
-    </div>
-
-                
-    <!-- SCRIPT PRINCIPAL -->
     <script src="/vendor/particles.min.js"></script>
     <script type="module" src="/src/config/particles.config.js"></script>
-    <script src="/src/main.js" type="module"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
