@@ -2,6 +2,7 @@ node_modules/
 .vite/
 frontend/dist/
 dist/
+coverage/
 codex.patch.bak
 .DS_Store
 .env
